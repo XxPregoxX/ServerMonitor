@@ -8,16 +8,35 @@
 </head>
 <body>
     <div id="MainAxis">
-        <div class="cpu-cores-grid">
-        {% for index in nucleos %}
-        <div class="container">
-        <p id="cpu-counter{{ index }}">0% | cpu{{ index }}</p>
-        <div id="cpu-bar{{ index }}" class="cpu-usage-div">
-        </div> 
+        <div class="left-side">
+            <div class="cpu-cores-grid">
+                {% for index in nucleos %}
+                <div class="container">
+                <p id="cpu-counter{{ index }}">0% | cpu{{ index }}</p>
+                <div id="cpu-bar{{ index }}" class="cpu-usage-div">
+                </div> 
+                </div>
+                {% endfor %}
+            </div>
+            <div class="cpu-info-box">
+                <div class="fixed-column">
+                    <p class="info-title">CPU:</p>
+                    <p class="info-subtitle">Núcleos:</p>
+                    <p class="info-subtitle">Threads:</p>
+                    <p class="info-subtitle">Clock base:</p>
+                    <p class="info-subtitle">Clock max:</p>
+                </div>
+                <div class="var-column">
+                    <p class="info-title">Uso total:</p>
+                    <p class="info-subtitle">Temperatura:</p>
+                    <p class="info-subtitle">Frequência:</p>
+                    <p class="info-subtitle">Load Average:</p>
+                </div>
+            </div>
         </div>
-        {% endfor %}
-        </div>
+        
         <div class="mem-usage-container">
+            <p class="mem-total-title">0% | 0</p>
             <h2 class="mem-title">Uso de memória</h2>
             <div id="RAM-bar">
                 {% for line in lines %}

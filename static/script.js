@@ -2,6 +2,12 @@ async function cpuMonitoring() {
     const res = await fetch('/cpu');
     const novaLista = await res.json();
 
+    if (novaLista.length > 6){
+        document.querySelector('.cpu-cores-grid').style.gridTemplateRows = 'repeat(6, 100px)';
+    } else {
+        document.querySelector('.cpu-cores-grid').style.gridTemplateRows = `repeat(${novaLista.length}, 100px)`;
+    }
+
     const delay = 15;
     const tarefas = [];
 
@@ -65,12 +71,17 @@ async function memMonitoring() {
             var cache_bytes = valores[1];
             var buffers_bytes = valores[2];
             var total_bytes = valores[3];
-            var free_bytes = total_bytes - (used_bytes + cache_bytes + buffers_bytes);
+            var total_used = used_bytes + cache_bytes + buffers_bytes;
+            var free_bytes = total_bytes - total_used;
 
             const usedPercent = (used_bytes / total_bytes) * 100;
             const freePercent = (free_bytes / total_bytes) * 100;
             const cachePercent = (cache_bytes / total_bytes) * 100;
             const buffersPercent = (buffers_bytes / total_bytes) * 100;
+            const total_used_percent = (total_used / total_bytes) * 100;
+
+            document.querySelector('.mem-total-title').textContent =
+                total_used_percent.toFixed(1) + "% | " + bytesToGB(total_bytes);
             
             document.getElementById("usage-percent").textContent = usedPercent.toFixed(1) + "%";
             document.getElementById("cache-percent").textContent = cachePercent.toFixed(1) + "%";
@@ -107,6 +118,11 @@ function bytesToGB(bytes) {
 function sleep(ms) {
     return new Promise(r => setTimeout(r, ms));
 }
+
+window.onload = function() {
+    cpuMonitoring();
+    memMonitoring();
+};
 
 // Atualiza a lista a cada 3 segundos
 setInterval(cpuMonitoring, 2000);
