@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página de Teste</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div id="MainAxis">
+        <div class="left-side">
+            <div class="cpu-cores-grid">
+                {% for index in nucleos %}
+                <div class="container">
+                <p id="cpu-counter{{ index }}">0% | cpu{{ index }}</p>
+                <div id="cpu-bar{{ index }}" class="cpu-usage-div">
+                </div> 
+                </div>
+                {% endfor %}
+            </div>
+            <div class="cpu-info-box">
+                <div class="fixed-column">
+                    <p class="info-text">CPU: {{cpu_model}}</p>
+                    <p class="info-text">Núcleos: {{cpu_real_cores}}</p>
+                    <p class="info-text">Threads: {{cpu_cores}}</p>
+                    <p class="info-text">Clock max: {{cpu_max_ghz}}GHz</p>
+                </div>
+                <div class="var-column">
+                    <p class="info-text" id="tota_usage">Uso total:</p>
+                    <p class="info-text" id="load_avrg">Load Average:</p>
+                    <p class="info-text" id="temp">Temperatura:</p>
+                    <p class="info-text" id="frequency">Frequência:</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mem-usage-container">
+            <p class="mem-total-title" id="RAM">0% | 0</p>
+            <h2 class="mem-title">Uso de memória</h2>
+            <div id="RAM-bar" class="mem-bar">
+                {% for line in lines %}
+                <span id="mem-line{{line}}" class="mem-line">
+                </span>
+                {% endfor %}
+            </div>
+            <div id="mem-column">
+                <div id="mem-labels">
+                    <div class="label">
+                        <span class="circle" id="uso"></span>
+                        <p class="label-text">Em uso</p>  
+                    </div>
+                    <div class="label">
+                        <span class="circle" id="cache"></span>
+                        <p class="label-text">Cache</p>
+                    </div>
+                   <div class="label">
+                        <span class="circle" id="buffers"></span>
+                        <p class="label-text">buffers</p>
+                   </div>
+                   <div class="label">
+                        <span class="circle" id="livre"></span>
+                        <p class="label-text">Livre</p>
+                   </div>
+                   
+                </div>
+                <div id="mem-grid">
+                    <div class="mem-row">
+                        <p class="grid-text" id="usage-percent">teste</p>
+                        <span class="coluna-horizontal"></span>
+                        <p class="grid-text" id="cache-percent">teste</p>
+                        <span class="coluna-horizontal"></span>
+                        <p class="grid-text" id="buffer-percent">teste</p>
+                        <span class="coluna-horizontal"></span>
+                        <p class="grid-text" id="free-percent">teste</p>
+                    </div>
+                    <span class="coluna-vertical"></span>
+                    <div class="mem-row">
+                        <p class="grid-text" id="usage-bytes">teste</p>
+                        <span class="coluna-horizontal"></span>
+                        <p class="grid-text" id="cache-bytes">teste</p>
+                        <span class="coluna-horizontal"></span>
+                        <p class="grid-text" id="buffer-bytes">teste</p>
+                        <span class="coluna-horizontal"></span>
+                        <p class="grid-text" id="free-bytes">teste</p>
+                    </div>
+                </div>
+            </div>
+            <p class="mem-total-title" id="swap">0% | 0</p>
+            <h2 class="mem-title">Uso de Swap</h2>
+            <div id="SWAP-bar" class="mem-bar">
+                {% for line in lines %}
+                <span id="swap-line{{line}}" class="mem-line">
+                </span>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
