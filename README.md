@@ -24,6 +24,24 @@ Ele é apenas compativel com Linux, pois usa comandos exclusivos do linux para e
 ### Acesso Web
 O projeto foi pensado para ser acessado pela rede, a interface é web possibilita o monitoramento remoto, pode ser feito via tunel Cloudflare ou IP fixo.
 
+### Técnologias
+
+- Python
+  - É o motor do projeto, pega todas as informações de hardware, monitoramento para o Javascript poder buscar e alterar os valores na tela.
+    
+- Flask
+  - É o framework basico do projeto web, vai sustentar as comunicações entre todas as partes do projeto e vai hospedar ele no dominio local.
+    
+- Javascript
+  - É o frontend, busca as informações do python e atualiza em tempo real na tela e executa as animações.
+    
+- HTML
+  - O padrão, a estrutura basica da interface web fica aqui
+    
+- CSS
+  - Padrão também, para decoração estatica e adaptavel para diferentes dispositivos, resoluções.
+
+
 ## :black_joker: Instalação
 
 Colocar aqui depois de pronto
