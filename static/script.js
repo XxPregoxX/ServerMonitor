@@ -146,6 +146,28 @@ async function swapMonitoring() {
         }
 }
 
+async function DiskCheck() {
+    const res = await fetch('/disk');
+    const valores = await res.json();
+    // Implementar a lógica de monitoramento de disco aqui
+}
+
+async function PingCheck() {
+    const res = await fetch('/ping');
+    const valores = await res.json();
+    const status = valores[0];
+    const latencia = valores[1];
+
+    if (status === false) {
+        document.getElementById('ping-bar').style.backgroundColor = 'red';
+        document.getElementById('latency').textContent = "- ms";
+    } else {
+        document.getElementById('ping-bar').style.backgroundColor = 'green';
+        document.getElementById('latency').textContent = latencia + " ms";
+    }
+    // Implementar a lógica de monitoramento de ping aqui
+}
+
 function kbToGb(kb) {
     return (kb / (1024 * 1024)).toFixed(1) + "GB";
 }
@@ -169,4 +191,8 @@ memMonitoring();
 
 setInterval(swapMonitoring, 5000);
 swapMonitoring();
+
+// pinga a cada 1 segundos
+setInterval(PingCheck, 1000);
+PingCheck();
 

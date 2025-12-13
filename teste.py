@@ -1,6 +1,8 @@
 import json
+import re
 import subprocess
 from flask import Flask, jsonify, render_template
+from pythonping import ping
 import psutil
 import os
 import glob
@@ -72,6 +74,21 @@ def get_swap():
     
     return jsonify([swap_used, swap_free, swap_total])
 
+@app.route("/ping")
+def ping():
+    result = subprocess.run(
+        ["ping", "-c", "1", '8.8.8.8'],  # manda 1 pacote
+        capture_output=True,
+        text=True
+    )
+    if result.returncode != 0:
+        return jsonify([False, 0])  # host não respondeu
+
+    # Procura o tempo no output (latência)
+    match = re.search(r'time=([\d.]+) ms', result.stdout)
+    if match:
+        return jsonify([True, float(match.group(1))])  # converte pra float
+
 def get_lscpu():
     res = subprocess.run(
         ["bash", "-c", "LC_ALL=C lscpu --json"],
@@ -115,4 +132,4 @@ def get_load_avg():
     return load
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=True)

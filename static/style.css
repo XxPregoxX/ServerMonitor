@@ -137,3 +137,67 @@ body {
     width: 2px;
     align-self: stretch;
 }
+/* Coisas de disco */
+#bottom-right{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 20px;
+}
+#disks{
+    margin: 3vh 0;
+}
+.disk-block{
+    display: flex;
+    flex-direction: row;
+}
+.disk-title{
+    font-size: 120%;
+    margin: 2px 0;
+}
+.disk-bar{
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    background-color: white;
+    width: 15px;
+    height: 150px;
+    margin: 0 10px;
+}
+.disk-bar-fill{
+    display: block;
+    background-color: #38b6ff;
+    height: 50%;
+    width: 100%;
+}
+.disk-text{
+    margin: 2px 0;
+}
+/* Coisas de rede */
+#network-block{
+    display: flex;
+    flex-direction: row;
+    margin: 3vh 0;
+}
+#ping{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-left: 20px;
+}
+#ping-bar{
+    background-color: green;
+    width: 10px;
+    height: 100px;
+}
+.ping-text{
+    margin: 10px 0;
+}
+#network-info{
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+}
+.network-info-text{
+    margin: 2px 0;
+}

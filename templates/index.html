@@ -93,6 +93,42 @@
                 </span>
                 {% endfor %}
             </div>
+                        <!-- separador pra copiar isso depois -->
+            <div id="bottom-right">
+                <div id="disks">
+                    <div class="disk-block">
+                        <h2 class="disk-title">Disco</h2>
+                        <div class="disk-bar">
+                            <span class="disk-bar-fill"></span>
+                        </div>
+                        <div class="disk-info">
+                            <p class="disk-text" id="capacidade-total:">Uso: teste</p>
+                            <p class="disk-text" id="em-uso:">Em uso: teste</p>
+                            <p class="disk-text" id="em-uso%:">Em uso %: teste</p>
+                            <p class="disk-text" id="livre-disco">Livre: teste</p>
+                            <p class="disk-text" id="read">Read: teste</p>
+                            <p class="disk-text" id="write">Write: teste</p>
+                            <p class="disk-text" id="temperatura">Temperatura: teste</p>
+                        </div>
+                    </div>
+                </div>
+                <div id="network-block">
+                    <div id="ping">
+                        <span id="ping-bar"></span>
+                        <div id="ping-text">
+                            <h2 class="ping-text" id="ping-title">Ping</h2>
+                            <p class="ping-text" id="ping-domain">8.8.8.8</p>
+                            <p class="ping-text" id="latency">22 ms</p>
+                        </div>
+                    </div>
+                    <div id="network-info">
+                        <p class="network-info-text" id="tx">TX: 3.2 MB/s</p>
+                        <p class="network-info-text" id="rx">RX: 2.0 MB/s</p>
+                        <p class="network-info-text" id="tx-total">TX total: 1.4 GB</p>
+                        <p class="network-info-text" id="rx-total">RX total: 0.8 GB</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
