@@ -96,21 +96,21 @@
                         <!-- separador pra copiar isso depois -->
             <div id="bottom-right">
                 <div id="disks">
+                    {% for index in range(dis_count) %}
                     <div class="disk-block">
-                        <h2 class="disk-title">Disco</h2>
+                        <h2 class="disk{{ index }}-title">Disco</h2>
                         <div class="disk-bar">
                             <span class="disk-bar-fill"></span>
                         </div>
                         <div class="disk-info">
-                            <p class="disk-text" id="capacidade-total:">Uso: teste</p>
-                            <p class="disk-text" id="em-uso:">Em uso: teste</p>
-                            <p class="disk-text" id="em-uso%:">Em uso %: teste</p>
-                            <p class="disk-text" id="livre-disco">Livre: teste</p>
-                            <p class="disk-text" id="read">Read: teste</p>
-                            <p class="disk-text" id="write">Write: teste</p>
-                            <p class="disk-text" id="temperatura">Temperatura: teste</p>
+                            <p class="disk-text" id="disk{{ index }}-capacidade-total">Tamanho: teste</p>
+                            <p class="disk-text" id="disk{{ index }}-em-uso">Em uso: teste</p>
+                            <p class="disk-text" id="disk{{ index }}-em-uso%">Em uso %: teste</p>
+                            <p class="disk-text" id="disk{{ index }}-livre-disco">Livre: teste</p>
+                            <p class="disk-text" id="disk{{ index }}-temperatura">Temperatura: teste</p>
                         </div>
                     </div>
+                    {% endfor %}
                 </div>
                 <div id="network-block">
                     <div id="ping">

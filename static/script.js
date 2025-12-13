@@ -147,9 +147,33 @@ async function swapMonitoring() {
 }
 
 async function DiskCheck() {
-    const res = await fetch('/disk');
+    const res = await fetch('/disks');
     const valores = await res.json();
-    // Implementar a lógica de monitoramento de disco aqui
+
+Object.entries(valores).forEach(([device, disk], index) => {
+    const capacidade_total = disk['size'];
+    const em_uso = bytesToGB(disk['used']);
+    const em_uso_percent = disk['used_percent'];
+    const livre_disco = bytesToGB(disk['free']);
+    const temperatura = disk['temperature'];
+
+    document.getElementById(`disk${index}-capacidade-total`).textContent =
+        "Tamanho: " + capacidade_total;
+
+    document.getElementById(`disk${index}-em-uso`).textContent =
+        "Em uso: " + em_uso + "G";
+
+    document.getElementById(`disk${index}-em-uso%`).textContent =
+        "Em uso %: " + em_uso_percent + "%";
+
+    document.getElementById(`disk${index}-livre-disco`).textContent =
+        "Livre: " + livre_disco + "G";
+
+    document.getElementById(`disk${index}-temperatura`).textContent =
+        "Temperatura: " + temperatura + "°C";
+});
+    
+    console.log(Object.entries(valores));
 }
 
 async function PingCheck() {
@@ -168,6 +192,11 @@ async function PingCheck() {
     // Implementar a lógica de monitoramento de ping aqui
 }
 
+function bytesToGB(bytes) {
+    if (!bytes || isNaN(bytes)) return 0;
+    return (bytes / (1024 ** 3)).toFixed(2);
+}
+
 function kbToGb(kb) {
     return (kb / (1024 * 1024)).toFixed(1) + "GB";
 }
@@ -180,6 +209,7 @@ window.onload = function() {
     cpuMonitoring();
     memMonitoring();
     swapMonitoring();
+    DiskCheck();
 };
 
 // Atualiza a lista a cada 3 segundos

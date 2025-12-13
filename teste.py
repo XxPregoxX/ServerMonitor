@@ -1,5 +1,6 @@
 import json
 import re
+import socket
 import subprocess
 from flask import Flask, jsonify, render_template
 from pythonping import ping
@@ -17,13 +18,15 @@ def index():
     cpu_max_ghz = int(float(cpu_info['CPU max MHz'])) / 1000
     lines = range(100)
     nucleos = range(os.cpu_count())
+    dis_count = get_disk_count()
     return render_template("index.html",
                             lines=lines,
                             nucleos=nucleos,
                             cpu_model=cpu_model,
                             cpu_real_cores=cpu_real_cores,
                             cpu_cores=cpu_cores,
-                            cpu_max_ghz=cpu_max_ghz
+                            cpu_max_ghz=cpu_max_ghz,
+                            dis_count=dis_count
                            )
 
 @app.route("/cpu")
@@ -89,6 +92,27 @@ def ping():
     if match:
         return jsonify([True, float(match.group(1))])  # converte pra float
 
+@app.route("/disks")
+def get_disks_info():
+    discs = get_disks()
+    info = {}
+    for device, value in discs.items():
+        jsoned = smartctl(f"/dev/{device}")
+        smart_info = json.loads(jsoned)
+        if "nvme" in device:
+            temp = smart_info['temperature'] - 273
+        else:
+            temp = smart_info['temperature']['current']
+        usage = value["used"]
+        info[device] = {
+            'name': device,
+            'size': value['size'],
+            'temperature': temp,
+            'used': usage.used,
+            'used_percent': usage.percent,
+            'free': usage.free,}
+    return jsonify(info)
+
 def get_lscpu():
     res = subprocess.run(
         ["bash", "-c", "LC_ALL=C lscpu --json"],
@@ -130,6 +154,33 @@ def get_load_avg():
     load1, load5, load15 = os.getloadavg()
     load = f"{load1:.2f}" + f" {load5:.2f}" + f" {load15:.2f}"
     return load
+
+def get_disks():
+    output = subprocess.check_output(["lsblk", "-J"])  # -b = bytes
+    data = json.loads(output)
+    disk_return = {}
+    for device in data['blockdevices']:
+        name = device['name']
+        if device['type'] == 'disk':
+            size = device['size']
+            if device['children']:
+                for part in device['children']:
+                    if part.get("mountpoints") and part["mountpoints"][0]:
+                        mountpoint = part['mountpoints']
+                        used = psutil.disk_usage(mountpoint[0])
+                        disk_return[name] = {"size": size, "used": used}
+    return disk_return
+
+def smartctl(device):
+    s = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+    s.connect("/var/run/servermonitor.sock")
+    s.sendall(f"smart {device}".encode())
+    output = s.recv(500000).decode()
+    s.close()
+    return output
+
+def get_disk_count():
+    return len(get_disks())
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)

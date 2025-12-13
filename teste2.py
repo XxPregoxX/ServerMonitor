@@ -87,21 +87,16 @@ def get_disks():
     output = subprocess.check_output(["lsblk", "-J"])  # -b = bytes
     data = json.loads(output)
     disk_return = {}
-    disk_counter = 0
     for device in data['blockdevices']:
         name = device['name']
         if device['type'] == 'disk':
-            disk_counter += 1
             size = device['size']
-            disk_return.update({f"disk{disk_counter}": [name, size]})
             if device['children']:
                 for part in device['children']:
-                    if part["mountpoints"][0]:
-                        part_name = part['name']
-                        part_size = part['size']
+                    if part.get("mountpoints") and part["mountpoints"][0]:
                         mountpoint = part['mountpoints']
                         used = psutil.disk_usage(mountpoint[0])
-                        disk_return.update({part_name: {"size": part_size, "mountpoint": mountpoint, "used": used}})
+                        disk_return[name] = {"size": size, "used": used}
     return disk_return
 
 def smartctl(device):
@@ -114,13 +109,30 @@ def smartctl(device):
 
 def get_disks_info():
     discs = get_disks()
-    for key, value in discs.items():
-        if "disk" in key:
-            device = f"/dev/{value[0]}"
-            jsoned = smartctl(device)
-            smart_info = json.loads(jsoned)
-            if "nvme" in value[0]:
-                print(smart_info['temperature'])
+    info = {}
+    for device, value in discs.items():
+        jsoned = smartctl(f"/dev/{device}")
+        smart_info = json.loads(jsoned)
+        if "nvme" in device:
+            temp = smart_info['temperature'] - 273
+        else:
+            temp = smart_info['temperature']['current']
+        usage = value["used"]
+        info[device] = {
+            'name': device,
+            'size': value['size'],
+            'temperature': temp,
+            'used': usage.used,
+            'used_percent': usage.percent,
+            'free': usage.free,}
+    print(info)
+    return info
+
+def get_disk_count():
+    number = len(get_disks())
+    print(number)
+
+get_disk_count()
 
 # def ping(host):
 #     result = subprocess.run(
