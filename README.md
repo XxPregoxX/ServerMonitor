@@ -59,8 +59,9 @@ O projeto foi pensado para ser acessado pela rede. A interface web possibilita o
 
 Após baixar os arquivos do projeto, abra o terminal no diretório do projeto e execute os seguintes comandos:
 
-sudo chmod +x install.sh
-sudo ./install.sh
+`sudo chmod +x install.sh`
+
+`sudo ./install.sh`
 
 Após isso, o serviço já deve estar funcionando. Para acessar a interface, utilize:
 
@@ -68,17 +69,18 @@ http://127.0.0.1:5000/
 
 ### Desinstalação
 
-Para desinstalar o software, acesse o diretório onde ele está instalado (/opt/servermonitor/) e execute:
+Para desinstalar o software, acesse o diretório onde ele está instalado `/opt/servermonitor/` e execute:
 
-sudo chmod +x uninstall.sh
-sudo ./uninstall.sh
+`sudo chmod +x uninstall.sh`
+
+`sudo ./uninstall.sh`
 
 ## :computer: Requisitos
 
 Nada muito específico. Uma máquina com Linux baseado em Debian/Ubuntu.
 
 A máquina mais fraca utilizada nos testes possui um Celeron J1800 e 4 GB de RAM, sem apresentar problemas.
-O consumo é maior na máquina que acessa a interface web do que no servidor que executa o programa.
+O consumo chega a ser maior na máquina que acessa a interface web do que no servidor que executa o programa.
 Em termos de hardware, a princípio, o software deve rodar sem problemas na maioria dos sistemas.
 
 ## :game_die: Uso
@@ -92,7 +94,7 @@ Utilizando túnel, o processo é semelhante: basta vincular o túnel à porta 50
 ## :eyes: Privacidade
 
 Para executar comandos de verificação SMART dos discos, é necessário acesso root.
-Por esse motivo, foi criado um arquivo específico (smarthelper.py) com permissão root apenas para realizar essas operações.
+Por esse motivo, foi criado um arquivo específico `smarthelper.py` com permissão root apenas para realizar essas operações.
 Ele se comunica com o processo principal através de um socket Unix.
 
 Também é necessário acesso root durante a instalação, pois são realizadas instalações de bibliotecas e pacotes necessários para o funcionamento do sistema.
