@@ -4,4 +4,3 @@ __pycache__/
 *.pyc
 start_api.sh
 teste2.py
-.gitignore
