@@ -2,11 +2,13 @@ import json
 import re
 import socket
 import subprocess
+import time
 from flask import Flask, jsonify, render_template
-from pythonping import ping
 import psutil
 import os
 import glob
+import logging
+
 app = Flask(__name__)
 
 @app.route("/")
@@ -69,9 +71,9 @@ def get_swap():
     with open("/proc/meminfo") as f:
         for line in f:
             if line.startswith("SwapTotal:"):
-                swap_total = int(line.split()[1])  # em KB
+                swap_total = int(line.split()[1])
             elif line.startswith("SwapFree:"):
-                swap_free = int(line.split()[1])  # em KB
+                swap_free = int(line.split()[1])
 
     swap_used = swap_total - swap_free
     
@@ -80,17 +82,16 @@ def get_swap():
 @app.route("/ping")
 def ping():
     result = subprocess.run(
-        ["ping", "-c", "1", '8.8.8.8'],  # manda 1 pacote
+        ["ping", "-c", "1", '8.8.8.8'],
         capture_output=True,
         text=True
     )
     if result.returncode != 0:
-        return jsonify([False, 0])  # host não respondeu
+        return jsonify([False, 0])
 
-    # Procura o tempo no output (latência)
     match = re.search(r'time=([\d.]+) ms', result.stdout)
     if match:
-        return jsonify([True, float(match.group(1))])  # converte pra float
+        return jsonify([True, float(match.group(1))]) 
 
 @app.route("/disks")
 def get_disks_info():
@@ -112,6 +113,27 @@ def get_disks_info():
             'used_percent': usage.percent,
             'free': usage.free,}
     return jsonify(info)
+
+@app.route("/uptime")
+def uptime():
+    uptime = psutil.boot_time()
+    seconds = int(time.time() - uptime)
+
+    days, seconds = divmod(seconds, 86400)
+    hours, seconds = divmod(seconds, 3600)
+    minutes, seconds = divmod(seconds, 60)
+
+    parts = []
+    if days:
+        parts.append(f"{days}d")
+    if hours:
+        parts.append(f"{hours}h")
+    if minutes:
+        parts.append(f"{minutes}m")
+    if seconds or not parts:
+        parts.append(f"{seconds}s")
+
+    return jsonify(" ".join(parts))
 
 def get_lscpu():
     res = subprocess.run(
@@ -137,7 +159,6 @@ def get_cpu_temp():
                 with open(tf) as f:
                     temps.append(int(f.read().strip()) / 1000)
 
-    # pegar a primeira, geralmente temp1_input
     cpu_temp = temps[0] if temps else None
     return cpu_temp
 
@@ -182,5 +203,8 @@ def smartctl(device):
 def get_disk_count():
     return len(get_disks())
 
+log = logging.getLogger('werkzeug')
+log.setLevel(logging.ERROR)
+
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(host="0.0.0.0", port=5000)

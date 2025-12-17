@@ -133,7 +133,6 @@ async function swapMonitoring() {
     document.getElementById('swap').textContent =
         usedPercent.toFixed(1) + "% | " + kbToGb(total_bytes);
     
-    console.log(used_bytes, free_bytes, total_bytes);
     
     for (let i = 0; i < 100; i++) {
         if (i < usedPercent){
@@ -151,15 +150,10 @@ async function DiskCheck() {
     const valores = await res.json();
 
 Object.entries(valores).forEach(([device, disk], index) => {
-    const capacidade_total = disk['size'];
     const em_uso = bytesToGB(disk['used']);
     const em_uso_percent = disk['used_percent'];
     const livre_disco = bytesToGB(disk['free']);
     const temperatura = disk['temperature'];
-
-    document.getElementById(`disk${index}-capacidade-total`).textContent =
-        "Tamanho: " + capacidade_total;
-
     document.getElementById(`disk${index}-em-uso`).textContent =
         "Em uso: " + em_uso + "G";
 
@@ -172,9 +166,24 @@ Object.entries(valores).forEach(([device, disk], index) => {
     document.getElementById(`disk${index}-temperatura`).textContent =
         "Temperatura: " + temperatura + "°C";
 });
-    
-    console.log(Object.entries(valores));
-}
+
+};
+
+async function DiskInitInfo(){
+    const res = await fetch('/disks');
+    const valores = await res.json();
+
+    Object.entries(valores).forEach(([device, disk], index) => {
+    const nome_disco = disk['name'];
+    const capacidade_total = disk['size'];
+
+    document.getElementById(`disk${index}-title`).textContent =
+        nome_disco;
+
+    document.getElementById(`disk${index}-capacidade-total`).textContent =
+        "Tamanho: " + capacidade_total;
+});
+};
 
 async function PingCheck() {
     const res = await fetch('/ping');
@@ -189,7 +198,15 @@ async function PingCheck() {
         document.getElementById('ping-bar').style.backgroundColor = 'green';
         document.getElementById('latency').textContent = latencia + " ms";
     }
-    // Implementar a lógica de monitoramento de ping aqui
+}
+
+async function UpdateUptime() {
+    const res = await fetch('/uptime');
+    const valores = await res.json();
+    const uptime = valores;
+
+    document.getElementById('uptime').textContent =
+        "Uptime: " + uptime;
 }
 
 function bytesToGB(bytes) {
@@ -210,19 +227,30 @@ window.onload = function() {
     memMonitoring();
     swapMonitoring();
     DiskCheck();
+    DiskInitInfo()
 };
 
-// Atualiza a lista a cada 3 segundos
+// Atualiza as infromações de CPU a cada 2 segundos
 setInterval(cpuMonitoring, 2000);
 cpuMonitoring();
 
+// Verifica a RAM a cada 5 segundos
 setInterval(memMonitoring, 5000);
 memMonitoring();
 
-setInterval(swapMonitoring, 5000);
+// Verifica a swap a cada 10 segundos
+setInterval(swapMonitoring, 10000);
 swapMonitoring();
 
-// pinga a cada 1 segundos
+// Verifica o disco a cada 30 segundos
+setInterval(DiskCheck, 30000);
+DiskCheck();
+
+// Pinga a cada 1 segundo
 setInterval(PingCheck, 1000);
 PingCheck();
+
+// Atualiza o uptime a cada 1 segundo
+setInterval(UpdateUptime, 1000);
+UpdateUptime();
 

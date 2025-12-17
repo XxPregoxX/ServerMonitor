@@ -6,13 +6,12 @@ import os
 
 SOCKET_PATH = "/var/run/servermonitor.sock"
 
-# remove sock antigo
 if os.path.exists(SOCKET_PATH):
     os.remove(SOCKET_PATH)
 
 sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
 sock.bind(SOCKET_PATH)
-os.chmod(SOCKET_PATH, 0o666)  # permite qualquer usuário conectar
+os.chmod(SOCKET_PATH, 0o666)  
 sock.listen(5)
 
 while True:
@@ -27,10 +26,16 @@ while True:
         device = data.split()[1]
 
         try:
-            output = subprocess.check_output(
-                ["smartctl", "-a", device],
-                text=True
-            )
+            if "nvme" in device:
+                output = subprocess.check_output(
+                    ["nvme", "smart-log", "-o", 'json', device],
+                    text=True
+                )
+            else:
+                output = subprocess.check_output(
+                    ["smartctl", "-a", "-j", device],
+                    text=True
+                )
             conn.sendall(output.encode())
         except Exception as e:
             conn.sendall(str(e).encode())

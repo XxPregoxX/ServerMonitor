@@ -18,23 +18,27 @@
                 </div>
                 {% endfor %}
             </div>
-            <div class="cpu-info-box">
-                <div class="fixed-column">
-                    <p class="info-text">CPU: {{cpu_model}}</p>
-                    <p class="info-text">Núcleos: {{cpu_real_cores}}</p>
-                    <p class="info-text">Threads: {{cpu_cores}}</p>
-                    <p class="info-text">Clock max: {{cpu_max_ghz}}GHz</p>
-                </div>
-                <div class="var-column">
-                    <p class="info-text" id="tota_usage">Uso total:</p>
-                    <p class="info-text" id="load_avrg">Load Average:</p>
-                    <p class="info-text" id="temp">Temperatura:</p>
-                    <p class="info-text" id="frequency">Frequência:</p>
+            <div id="left-bottom">
+                <h2 id="uptime">Undefined</h2>
+                <div class="cpu-info-box">
+                    <div class="fixed-column">
+                        <p class="info-text">CPU: {{cpu_model}}</p>
+                        <p class="info-text">Núcleos: {{cpu_real_cores}}</p>
+                        <p class="info-text">Threads: {{cpu_cores}}</p>
+                        <p class="info-text">Clock max: {{cpu_max_ghz}}GHz</p>
+                    </div>
+                    <div class="var-column">
+                        <p class="info-text" id="tota_usage">Uso total:</p>
+                        
+                        <p class="info-text" id="load_avrg">Load Average:</p>
+                        <p class="info-text" id="temp">Temperatura:</p>
+                        <p class="info-text" id="frequency">Frequência:</p>
+                    </div>
                 </div>
             </div>
         </div>
         
-        <div class="mem-usage-container">
+        <div class="right-side">
             <p class="mem-total-title" id="RAM">0% | 0</p>
             <h2 class="mem-title">Uso de memória</h2>
             <div id="RAM-bar" class="mem-bar">
@@ -98,7 +102,7 @@
                 <div id="disks">
                     {% for index in range(dis_count) %}
                     <div class="disk-block">
-                        <h2 class="disk{{ index }}-title">Disco</h2>
+                        <h2 class="disk-title" id="disk{{ index }}-title">Disco</h2>
                         <div class="disk-bar">
                             <span class="disk-bar-fill"></span>
                         </div>
@@ -120,12 +124,6 @@
                             <p class="ping-text" id="ping-domain">8.8.8.8</p>
                             <p class="ping-text" id="latency">22 ms</p>
                         </div>
-                    </div>
-                    <div id="network-info">
-                        <p class="network-info-text" id="tx">TX: 3.2 MB/s</p>
-                        <p class="network-info-text" id="rx">RX: 2.0 MB/s</p>
-                        <p class="network-info-text" id="tx-total">TX total: 1.4 GB</p>
-                        <p class="network-info-text" id="rx-total">RX total: 0.8 GB</p>
                     </div>
                 </div>
             </div>
