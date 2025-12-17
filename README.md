@@ -6,6 +6,7 @@ Esse é um software simples para monitoramento de servidores linux via interface
 - Monitoramento remoto
 - Atualização em tempo real dos valores de rede, memória, CPU e discos.
 - Informações técnicas basicas da CPU, memorias e discos
+- ~~MOnitoramento de TX/RX~~ <sup>Planejado</sup>
 - ~~Timers de atualização configuraveis~~ <sup>Planejado</sup>
 - ~~Design mobile~~ <sup>Planejado</sup>
 - ~~Lista de processos ativos em tempo real~~ <sup>Planejado</sup>
@@ -44,10 +45,38 @@ O projeto foi pensado para ser acessado pela rede, a interface é web possibilit
 
 ## :black_joker: Instalação
 
-Colocar aqui depois de pronto
+Após baixar os arquivos do projeto, você deve abrir o terminal no diretório do projeto e digitar os seguintes comandos:
+
+`sudo chmod +x install.sh`
+
+`sudo install.sh`
+
+Feito isso já deve estar funcionando, é só acessar o localhost da sua maquinha na porta 5000:
+
+<a>http://127.0.0.1:5000/</a>
+
+### Desinstalação
+
+Para desinstalar o software basta acessar a pasta em que ele está `/opt/servermonitor/` e digitar os seguintes comandos:
+
+`sudo chmod +x uninstall.sh`
+
+`sudo uninstall.sh`
 
 ## :computer: Requisitos
 
-Nada muito especifico, uma maquina com linux, todas os pacotes e bibliotecas nescessárias.
+Nada muito especifico, uma maquina com linux Debian/Ubuntu based.
 
 A maquina mais fraca que eu consegui testar tem um Celeron J1800 e 4G de ram, não teve nenhum problema, é mais pesado para a maquina que abre a interface web do que para o servidor rodando o programa, de qualquer forma, em relação a hardware a principio deve rodar em tudo sem problema nenhum.
+
+## :game_die: Uso
+
+O monitoramento foi feito como um daemon, ou seja, ele inicia junt com o boot, para acessar é só acessar o localhost.
+
+O serviço já fica exposto para a rede local só de estar rodando, caso seja você tenha um IP valido é só liberar o servidor para a rede e acessar com o IP:5000, via tunel é quase a mesma coisa, só precisa fazer o tunel linkado na porta 5000 e deve dar para acessar externamente.
+
+## :eyes: Privacidade
+
+
+
+
