@@ -2,7 +2,7 @@
 
 Esse é um software simples para monitoramento de servidores linux via interface web.
 
-
+![Interface do software](assets/screenshot.png)
 
 ## :clipboard: Features
 - Monitoramento remoto
