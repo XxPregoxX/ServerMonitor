@@ -1,86 +1,99 @@
-# Software monitor
+# Software Monitor
 
-Esse é um software simples para monitoramento de servidores linux via interface web.
+Este é um software simples para monitoramento de servidores Linux via interface web.
 
 ![Interface do software](assets/screenshot.png)
 
 ## :clipboard: Features
+
 - Monitoramento remoto
-- Atualização em tempo real dos valores de rede, memória, CPU e discos.
-- Informações técnicas basicas da CPU, memorias e discos
-- ~~MOnitoramento de TX/RX~~ <sup>Planejado</sup>
-- ~~Timers de atualização configuraveis~~ <sup>Planejado</sup>
+
+- Atualização em tempo real dos valores de rede, memória, CPU e discos
+
+- Informações técnicas básicas da CPU, memórias e discos
+
+- ~~Monitoramento de TX/RX~~ <sup>Planejado</sup>
+
+- ~~Timers de atualização configuráveis~~ <sup>Planejado</sup>
+
 - ~~Design mobile~~ <sup>Planejado</sup>
+
 - ~~Lista de processos ativos em tempo real~~ <sup>Planejado</sup>
 
-## :books: Sobre o projeto
+:books: Sobre o projeto
+Inspiração
 
-### Inspiração
-Esse projeto é inspirado primariamente no [htop](https://github.com/htop-dev/htop), porém também tem elementos inspirados no Gerenciador de tarefas do Windows, é meio que uma mescla de ambos com a possibilidade de monitorar tudo pela rede. 
+Este projeto é inspirado primariamente no [htop](https://github.com/htop-dev/htop), porém também possui elementos inspirados no Gerenciador de Tarefas do Windows. A proposta é uma mescla de ambos, com a possibilidade de monitorar tudo remotamente pela rede.
 
-### Design
-O design foi pensado para ser minimalista e intuitivo porém com algumas animações simples de transição, isso com o intuíto de manter agradavel de olhar e evitar atualizações secas, também optei por adicinar animações em relação a coloração, principalmente relacionado ao load das CPUS, temperaturas. Com o intuíto de sinalizar valores elevadados nestes campos.
+## Design
+
+O design foi pensado para ser minimalista e intuitivo, com algumas animações simples de transição. O objetivo é manter a interface agradável visualmente e evitar atualizações bruscas.
+Também foram adicionadas animações relacionadas à coloração, principalmente ligadas ao load das CPUs e temperaturas, com o intuito de sinalizar valores elevados nesses campos.
 
 ### Compatibilidade
-Ele é apenas compativel com Linux, pois usa comandos exclusivos do linux para extrair algumas informações, lsblk, lscpu... Sim, tem como adaptar para o Windows, porém não está nos planos do projeto, talvez uma atualização futura, mas não está nos planos envolvendo este projeto.
+
+O software é compatível apenas com Linux, pois utiliza comandos exclusivos do sistema para extração de informações, como lsblk e lscpu.
+É possível adaptar para Windows, porém isso não está nos planos atuais do projeto. Talvez em uma atualização futura, mas não há previsão.
 
 ### Acesso Web
-O projeto foi pensado para ser acessado pela rede, a interface é web possibilita o monitoramento remoto, pode ser feito via tunel Cloudflare ou IP fixo.
 
-### Técnologias
+O projeto foi pensado para ser acessado pela rede. A interface web possibilita o monitoramento remoto, podendo ser utilizada via túnel Cloudflare ou IP fixo.
 
-- Python
-  - É o motor do projeto, pega todas as informações de hardware, monitoramento para o Javascript poder buscar e alterar os valores na tela.
-    
-- Flask
-  - É o framework basico do projeto web, vai sustentar as comunicações entre todas as partes do projeto e vai hospedar ele no dominio local.
-    
-- Javascript
-  - É o frontend, busca as informações do python e atualiza em tempo real na tela e executa as animações.
-    
-- HTML
-  - O padrão, a estrutura basica da interface web fica aqui
-    
-- CSS
-  - Padrão também, para decoração estatica e adaptavel para diferentes dispositivos, resoluções.
+### Tecnologias
 
+-Python
+ -É o motor do projeto. Responsável por coletar todas as informações de hardware e monitoramento para que o JavaScript possa buscar e atualizar os valores na interface.
+
+-Flask
+ -Framework web base do projeto. Responsável por sustentar a comunicação entre as partes do sistema e hospedar a aplicação no domínio local.
+
+-JavaScript
+ -Responsável pelo frontend. Busca as informações fornecidas pelo Python, atualiza os dados em tempo real na interface e executa as animações.
+
+-HTML
+  -Estrutura básica da interface web.
+
+-CSS
+ -Utilizado para estilização estática e adaptação para diferentes dispositivos e resoluções.
 
 ## :black_joker: Instalação
 
-Após baixar os arquivos do projeto, você deve abrir o terminal no diretório do projeto e digitar os seguintes comandos:
+Após baixar os arquivos do projeto, abra o terminal no diretório do projeto e execute os seguintes comandos:
 
-`sudo chmod +x install.sh`
+sudo chmod +x install.sh
+sudo ./install.sh
 
-`sudo install.sh`
+Após isso, o serviço já deve estar funcionando. Para acessar a interface, utilize:
 
-Feito isso já deve estar funcionando, é só acessar o localhost da sua maquinha na porta 5000:
-
-<a>http://127.0.0.1:5000/</a>
+http://127.0.0.1:5000/
 
 ### Desinstalação
 
-Para desinstalar o software basta acessar a pasta em que ele está `/opt/servermonitor/` e digitar os seguintes comandos:
+Para desinstalar o software, acesse o diretório onde ele está instalado (/opt/servermonitor/) e execute:
 
-`sudo chmod +x uninstall.sh`
-
-`sudo uninstall.sh`
+sudo chmod +x uninstall.sh
+sudo ./uninstall.sh
 
 ## :computer: Requisitos
 
-Nada muito especifico, uma maquina com linux Debian/Ubuntu based.
+Nada muito específico. Uma máquina com Linux baseado em Debian/Ubuntu.
 
-A maquina mais fraca que eu consegui testar tem um Celeron J1800 e 4G de ram, não teve nenhum problema, é mais pesado para a maquina que abre a interface web do que para o servidor rodando o programa, de qualquer forma, em relação a hardware a principio deve rodar em tudo sem problema nenhum.
+A máquina mais fraca utilizada nos testes possui um Celeron J1800 e 4 GB de RAM, sem apresentar problemas.
+O consumo é maior na máquina que acessa a interface web do que no servidor que executa o programa.
+Em termos de hardware, a princípio, o software deve rodar sem problemas na maioria dos sistemas.
 
 ## :game_die: Uso
 
-O monitoramento foi feito como um daemon, ou seja, ele inicia junt com o boot, para acessar é só acessar o localhost.
+O monitoramento foi implementado como um daemon, ou seja, o serviço inicia automaticamente junto com o boot do sistema.
+Para acessar, basta abrir o navegador e acessar o endereço local.
 
-O serviço já fica exposto para a rede local só de estar rodando, caso seja você tenha um IP valido é só liberar o servidor para a rede e acessar com o IP:5000, via tunel é quase a mesma coisa, só precisa fazer o tunel linkado na porta 5000 e deve dar para acessar externamente.
+O serviço já fica exposto para a rede local assim que está em execução. Caso a máquina possua um IP válido, basta liberar o acesso na rede e acessar via IP:5000.
+Utilizando túnel, o processo é semelhante: basta vincular o túnel à porta 5000 para acesso externo.
 
 ## :eyes: Privacidade
 
-Para conseguir executar os comandos de verificação smart dos discos é nescessário acesso root, por conta disso eu separei um arquivo especifico com permissão root apenas para realizas esses comandos `smarthelper.py`, ele se comunica com o arquivo principal através de um socket unix.
+Para executar comandos de verificação SMART dos discos, é necessário acesso root.
+Por esse motivo, foi criado um arquivo específico (smarthelper.py) com permissão root apenas para realizar essas operações.
+Ele se comunica com o processo principal através de um socket Unix.
 
-Por fim, é nescessário acesso root para a instalação dele, é nescessário para baixar as bibliotecas e pacotes nescessários.
-
-
+Também é necessário acesso root durante a instalação, pois são realizadas instalações de bibliotecas e pacotes necessários para o funcionamento do sistema.
