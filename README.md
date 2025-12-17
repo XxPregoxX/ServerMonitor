@@ -24,7 +24,7 @@ Este é um software simples para monitoramento de servidores Linux via interface
 
 Este projeto é inspirado primariamente no [htop](https://github.com/htop-dev/htop), porém também possui elementos inspirados no Gerenciador de Tarefas do Windows. A proposta é uma mescla de ambos, com a possibilidade de monitorar tudo remotamente pela rede.
 
-## Design
+### Design
 
 O design foi pensado para ser minimalista e intuitivo, com algumas animações simples de transição. O objetivo é manter a interface agradável visualmente e evitar atualizações bruscas.
 Também foram adicionadas animações relacionadas à coloração, principalmente ligadas ao load das CPUs e temperaturas, com o intuito de sinalizar valores elevados nesses campos.
