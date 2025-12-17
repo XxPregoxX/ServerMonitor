@@ -2,6 +2,8 @@
 
 Esse é um software simples para monitoramento de servidores linux via interface web.
 
+
+
 ## :clipboard: Features
 - Monitoramento remoto
 - Atualização em tempo real dos valores de rede, memória, CPU e discos.
@@ -77,6 +79,8 @@ O serviço já fica exposto para a rede local só de estar rodando, caso seja vo
 
 ## :eyes: Privacidade
 
+Para conseguir executar os comandos de verificação smart dos discos é nescessário acesso root, por conta disso eu separei um arquivo especifico com permissão root apenas para realizas esses comandos `smarthelper.py`, ele se comunica com o arquivo principal através de um socket unix.
 
+Por fim, é nescessário acesso root para a instalação dele, é nescessário para baixar as bibliotecas e pacotes nescessários.
 
 
