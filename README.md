@@ -20,8 +20,7 @@ Este é um software simples para monitoramento de servidores Linux via interface
 
 - ~~Lista de processos ativos em tempo real~~ <sup>Planejado</sup>
 
-:books: Sobre o projeto
-Inspiração
+## :books: Sobre o projeto e inspiração
 
 Este projeto é inspirado primariamente no [htop](https://github.com/htop-dev/htop), porém também possui elementos inspirados no Gerenciador de Tarefas do Windows. A proposta é uma mescla de ambos, com a possibilidade de monitorar tudo remotamente pela rede.
 
