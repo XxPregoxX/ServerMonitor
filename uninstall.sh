@@ -13,5 +13,6 @@ sudo systemctl stop servermonitor.service
 sudo systemctl stop servermonitor-smart.service
 sudo rm /etc/systemd/system/servermonitor.service
 sudo rm /etc/systemd/system/servermonitor-smart.service
+sudo rm /var/run/servermonitor.sock 
 sudo systemctl daemon-reload
 echo "Server Monitor desinstalado com sucesso."
